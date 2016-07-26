@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}注册{% endblock %}
+{% block content %}
+
+<div class="container" style="padding:100px;">
+
+	<form method="post" class="form-signin" role="form" style="max-width: 330px;padding: 15px;margin: 0 auto;">
+		<h2>欢迎注册</h2>
+		{% csrf_token %}
+		{{form}}
+		<label type="checkbox">
+			<input type="checkbox"> 阅读用户协议
+		</label>
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="提交">
+	</form>
+</div>
+
+{% endblock %}

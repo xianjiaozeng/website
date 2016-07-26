@@ -1,0 +1,66 @@
+﻿{% extends 'solvedata/base.html' %}
+{% load staticfiles %}
+{% block main_content %}
+        <div class="content">
+            <div class="container-fluid">
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">模板下载</h4>
+                                <p class="category">Download the templates</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <th>模板名</th>
+                                    	<th>描述</th>
+                                    	<th>MD5</th>
+                                    	<th>文件大小（字节）</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
+                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
+                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
+                                        	<td>5632</td>
+                                        </tr>
+										<tr>
+                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
+                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
+                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
+                                        	<td>5632</td>
+                                        </tr>
+										<tr>
+                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
+                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
+                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
+                                        	<td>5632</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">文件上传</h4>
+                                <p class="category">Upload the files</p>
+                            </div>
+                            <div class="content">
+								<input id="upload" type="file" class="file"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block js_footer %}
+<script>$("#upload").fileinput();$('#func1').attr('class','active');</script>
+{% endblock %}

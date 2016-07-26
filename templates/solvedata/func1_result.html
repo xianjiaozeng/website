@@ -1,0 +1,59 @@
+﻿{% extends 'solvedata/base.html' %}
+{% block main_content %}
+        <div class="content">
+            <div class="container-fluid">
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">结果</h4>
+                                <p class="category">Result</p>
+                            </div>
+							<div class="col-md-6 col-md-offset-6">
+								<div class="input-group">
+								  <input type="text" class="form-control" placeholder="Search for...">
+								  <span class="input-group-btn">
+									<button class="btn btn-default" type="button">查询</button>
+								  </span>
+								</div>
+							</div>
+							
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <th>编号</th>
+                                    	<th>文件名</th>
+                                    	<th>时间</th>
+                                    	<th>文件大小（字节）</th>
+										<th>操作</th>
+                                    </thead>
+                                    <tbody>
+										{% for result in results %}
+                                        <tr>
+                                        	<td>1</td>
+                                        	<td>{{result.0}}</td>
+                                        	<td>{{result.1}}</td>
+                                        	<td>{{result.2}}</td>
+											<td>
+												<a href="result/view">查看</a></li>
+												<span style="color:gray">|</span>
+												<a href="/download/{{user.username}}/result/{{result.0}}/">下载</a>
+												<span style="color:gray">|</span>
+												<a href="/delete/func1/{{user.username}}/result/{{result.0}}/">删除</a></li>
+											</td>
+                                        </tr>
+										{% endfor %}				
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block js_footer %}
+<script>$('#func1').attr('class','active');</script>
+{% endblock %}
