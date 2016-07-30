@@ -61,4 +61,4 @@ def func1_calculate(username,filename):
     wb_user_st2.write(0,1,'Maturity')
     wb_user_st2.write(1,1,TotalMaturity[1]/float(TotalMaturity[2]))
 
-    wb_user.save(os.path.join(os.path.join(settings.MEDIA_ROOT,username+'/func1'),'result.xls'))
+    wb_user.save(os.path.join(os.path.join(settings.MEDIA_ROOT,username+'/func1/result'),'result.xls'))
