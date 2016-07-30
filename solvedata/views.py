@@ -25,10 +25,10 @@ def func1_1(request):
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_result(request):
 	current_user = request.user.username
-	filenames = os.listdir(settings.MEDIA_ROOT+current_user+'/result')
+	filenames = os.listdir(settings.MEDIA_ROOT+current_user+'/func1/result')
 	results = []
 	for filename in filenames:
-		file_path = settings.MEDIA_ROOT+current_user+'/result/'+filename
+		file_path = settings.MEDIA_ROOT+current_user+'/func1/result/'+filename
 		mtime = time.localtime(os.path.getmtime(file_path))
 		mtime = time.strftime('%Y-%m-%d',mtime)
 		filesize = os.path.getsize(file_path)
@@ -41,7 +41,7 @@ def func1_result_view(request):
 	return render(request,'solvedata/func1_result_view.html')
 
 @permission_required('solvedata.solve_data',raise_exception=True)
-def download(request,file_owner,file_name):
+def download(request,file_owner,func,file_name):
 	if (not file_owner=='common') and file_owner!=request.user.username:
 		return HttpResponse("<script>alert('只能下载自己的文件！')</script>")
 	def file_iterator(filename, chunk_size=512):
@@ -52,8 +52,7 @@ def download(request,file_owner,file_name):
 					yield c
 				else:
 					break
-	file_path = os.path.join(settings.MEDIA_ROOT+file_owner,file_name)
-	print(file_path)
+	file_path = os.path.join(settings.MEDIA_ROOT+file_owner+'/'+func,file_name)
 	response = StreamingHttpResponse(file_iterator(file_path))
 	response['Content-Type'] = 'application/octet-stream'
 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name.split('/')[-1])
@@ -81,11 +80,11 @@ def upload(request):
 	return HttpResponse("上传失败")
 
 @permission_required('solvedata.solve_data',raise_exception=True)
-def delete(request,next,file_owner,file_name):
-	file_path = os.path.join(settings.MEDIA_ROOT+file_owner,file_name)
+def delete(request,file_owner,func,file_name):
+	file_path = os.path.join(settings.MEDIA_ROOT+file_owner+"/"+func,file_name)
 	print(next)
 	try:
 		os.remove(file_path)
-		return HttpResponseRedirect("/data/"+next+"/result")
+		return HttpResponseRedirect("/data/"+func+"/result")
 	except:
 		return HttpResponse("删除失败")
