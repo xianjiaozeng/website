@@ -49,21 +49,23 @@
 <script src="{% static 'solvedata/js/bootstrap-table-zh-CN.min.js' %}"></script>
 
 <script>
+var table = eval('{{table|safe}}');
+var graph = eval('{{graph|safe}}');
 function buildTable($el, cells, rows) {
     var i, j, row,
         columns = [],
         data = [];
 
-    for (i = 0; i < cells; i++) {
+    for (i = 0; i < table[0].length; i++) {
         columns.push({
             field: 'field' + i,
-            title: 'Cell' + i
+            title: table[0][i]
         });
     }
-    for (i = 0; i < rows; i++) {
+    for (i = 1; i < table.length; i++) {
         row = {};
-        for (j = 0; j < cells; j++) {
-            row['field' + j] = 'Row-' + i + '-' + j;
+        for (j = 0; j < table[0].length; j++) {
+            row['field' + j] = table[i][j];
         }
         data.push(row);
     }
@@ -80,6 +82,7 @@ $(function () {
 
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script>
+  console.log(graph);
 	var chart = {
 		type: 'line',
 		zoomType: 'xy'
@@ -96,19 +99,21 @@ $(function () {
 	var xAxis = {
 		title: {
 			enabled: true,
-			text: '百分比 (%)'
+			text: '百分比'
 		},
+    min: 0.5,
 		startOnTick: false,
-		endOnTick: false,
+		endOnTick: true,
 		showLastLabel: true
 	};
 	var yAxis = {
 		title: {
 			enabled: true,
-			text: '百分比 (%)'
+			text: '百分比'
 		},
+    min:0.5,
 		startOnTick: false,
-		endOnTick: false,
+		endOnTick: true,
 		showLastLabel: true
 	};
 	/*
@@ -148,28 +153,23 @@ $(function () {
          }
       }
    };
-   var series= [{
-			type: 'scatter',
-            name: '点',
+   var series= [];
+      if(graph[0]>=0.5&&graph[1]>=0.5){
+        series.push({
+            type: 'scatter',
             color: 'rgba(223, 83, 83, .5)',
-            data: [[50,50],[40,80],[40,40]]
+            data: [[graph[0],graph[1]]]
 
-        },{
+        });
+      }
+      for(var i=2;i<graph.length;i++){
+        if(graph[i]<1)continue;
+        series.push({
             type: 'line',
-            name: '回归线',
-            color: 'rgba(0, 0, 0, .5)',
-            data: [[0, 100], [100, 0]]
-        },{
-            type: 'line',
-            name: '回归线2',
-            color: 'rgba(0, 0, 0, .5)',
-            data: [[0, 50], [50, 0]]
-        },{
-            type: 'line',
-            name: '回归线3',
-            color: 'rgba(0, 0, 0, .5)',
-            data: [[0, 75], [75, 0]]
-        }]
+            color: 'rgba(100, 66, 255, .5)',
+            data: [[0.5, graph[i]-0.5], [graph[i]-0.5, 0.5]]
+        });
+      }
 	var json = {};
 	   json.chart = chart;
 	   json.credits = credits;

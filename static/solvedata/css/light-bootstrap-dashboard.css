@@ -298,7 +298,7 @@ input:focus {
 .sidebar .nav p {
   margin: 0;
   line-height: 30px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -365,8 +365,8 @@ body > .navbar-collapse:before {
 }
 .sidebar:before,
 body > .navbar-collapse:before {
-  opacity: .33;
-  background: #000000;
+  opacity: 1;
+  background: #440030;
 }
 .sidebar:after,
 body > .navbar-collapse:after {
@@ -384,7 +384,7 @@ body > .navbar-collapse:after {
 .sidebar[data-image]:after, .sidebar.has-image:after,
 body > .navbar-collapse[data-image]:after,
 body > .navbar-collapse.has-image:after {
-  opacity: .77;
+  opacity: 0;
 }
 .sidebar[data-color="blue"]:after,
 body > .navbar-collapse[data-color="blue"]:after {
