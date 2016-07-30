@@ -32,18 +32,15 @@ def logout(request):
 
 
 def register(request):
-	if request.method == 'POST':
-		form = RegisterForm(request.POST)
-		if form.is_valid():
-			username = form.cleaned_data['username']
-			password1 = form.cleaned_data['password1']
-			password2 = form.cleaned_data['password2']
-			email = form.cleaned_data['email']
-			user = User.objects.create_user(username=username, password=password1,email=email)
-			os.makedirs(settings.MEDIA_ROOT+username+'/result')
-			if username == 'hehe':
-				assign('solvedata.solve_data',user)
-			user.save()
-	else:
-		form = RegisterForm()
-	return render(request,'register.html',{'form':form})
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        user = User.objects.create_user(username=username, password=password,email=email)
+        os.makedirs(settings.MEDIA_ROOT+username+'/result')
+        if username == 'hehe':
+            assign('solvedata.solve_data',user)
+        user.save()
+        return render(request,'register_success.html')
+    else:
+        return render(request,'register.html')
