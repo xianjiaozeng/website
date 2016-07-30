@@ -9,7 +9,7 @@ def func1_get(username,filename):
     rb_user_st2 =   rb.sheet_by_index(sheetx=1)
 
     ret1    =   []
-    ret2    =   [rb_user_st2.cell(1,0).value,rb_user_st2.cell(1,1).value,0.9,1.55,1.70]
+    ret2    =   [rb_user_st2.cell(1,0).value,rb_user_st2.cell(1,1).value,1.4,1.55,1.70]
     for i in range(rb_user_st1.nrows):
         ret1.append([])
         for j in range(rb_user_st1.ncols):
