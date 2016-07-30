@@ -17,16 +17,7 @@
                             </div>
 							
                             <div class="content">
-                                <table id="table" data-search="true" data-pagination="true" data-show-columns="true">
-									<thead>
-										<tr>
-											<th data-field="stargazers_count" data-sortable="true">Stars</th>
-											<th data-field="name" data-sortable="true" width="200">Name</th>
-											<th data-field="forks_count" data-sortable="true">Forks</th>
-											<th data-field="description" data-sortable="true">Description</th>
-										</tr>
-									</thead>
-								</table>
+                                <table id="table" data-show-columns="true" data-height="400"></table>
                             </div>
                         </div>
                     </div>
@@ -58,67 +49,39 @@
 <script src="{% static 'solvedata/js/bootstrap-table-zh-CN.min.js' %}"></script>
 
 <script>
-var data = [{
-    "name": "bootstrap-table",
-        "stargazers_count": "10",
-        "forks_count": "122",
-        "description": "An extended Bootstrap table"
-}, {
-    "name": "multiple-select",
-        "stargazers_count": "288",
-        "forks_count": "20",
-        "description": "A jQuery plugin to select multiple elements with checkboxes :)"
-}, {
-    "name": "bootstrap-table",
-        "stargazers_count": "32",
-        "forks_count": "11",
-        "description": "Show/hide password plugin for twitter bootstrap."
-}, {
-    "name": "bootstrap-table",
-        "stargazers_count": "1",
-        "forks_count": "4",
-        "description": "my blog"
-}, {
-    "name": "scutech-redmine 1",
-        "stargazers_count": "50",
-        "forks_count": "3",
-        "description": "Redmine notification tools for chrome extension."
-}, {
-    "name": "bootstrap-table",
-        "stargazers_count": "10",
-        "forks_count": "122",
-        "description": "An extended Bootstrap table"
-}, {
-    "name": "multiple-select",
-        "stargazers_count": "288",
-        "forks_count": "20",
-        "description": "A jQuery plugin to select multiple elements with checkboxes :)"
-}, {
-    "name": "bootstrap-table",
-        "stargazers_count": "32",
-        "forks_count": "11",
-        "description": "Show/hide password plugin for twitter bootstrap."
-}, {
-    "name": "bootstrap-table",
-        "stargazers_count": "1",
-        "forks_count": "4",
-        "description": "my blog"
-}, {
-    "name": "scutech-redmine 1",
-        "stargazers_count": "50",
-        "forks_count": "3",
-        "description": "Redmine notification tools for chrome extension."
-}];
-$('#table').bootstrapTable({
-		pageSize: 3,
+function buildTable($el, cells, rows) {
+    var i, j, row,
+        columns = [],
+        data = [];
+
+    for (i = 0; i < cells; i++) {
+        columns.push({
+            field: 'field' + i,
+            title: 'Cell' + i
+        });
+    }
+    for (i = 0; i < rows; i++) {
+        row = {};
+        for (j = 0; j < cells; j++) {
+            row['field' + j] = 'Row-' + i + '-' + j;
+        }
+        data.push(row);
+    }
+    $el.bootstrapTable('destroy').bootstrapTable({
+        columns: columns,
         data: data
     });
+}
+
+$(function () {
+    buildTable($('#table'), 50, 50);
+});
 </script>
 
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script>
 	var chart = {
-		type: 'scatter',
+		type: 'line',
 		zoomType: 'xy'
 	};
 	var credits = {
@@ -194,16 +157,18 @@ $('#table').bootstrapTable({
         },{
             type: 'line',
             name: '回归线',
-            data: [[0, 100], [100, 0]],
-            marker: {
-                enabled: false
-            },
-            states: {
-                hover: {
-                    lineWidth: 0
-                }
-            },
-            enableMouseTracking: false
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 100], [100, 0]]
+        },{
+            type: 'line',
+            name: '回归线2',
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 50], [50, 0]]
+        },{
+            type: 'line',
+            name: '回归线3',
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 75], [75, 0]]
         }]
 	var json = {};
 	   json.chart = chart;

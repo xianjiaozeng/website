@@ -23,7 +23,7 @@ import solvedata.views as data_views
 
 urlpatterns = [
     url(r'^upload/$',data_views.upload),
-    url(r'^download/(.+?)/(.+?)/$',data_views.download),
+    url(r'^download/(.+?)/(.+?)/(.+?)/$',data_views.download),
     url(r'^delete/(.+?)/(.+?)/(.+?)/$',data_views.delete),
 	url(r'^data/$',data_views.index,name='data_index'),
     url(r'^data/user$',data_views.user,name='data_user'),
