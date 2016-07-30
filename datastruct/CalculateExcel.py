@@ -41,7 +41,7 @@ def func1_calculate(username,filename):
     Maturity    =   []
     TotalMaturity   =   ["评估总分",0,0]
     for i,a in enumerate(Title):
-        wb_user_st1.write(i,0,a)
+        wb_user_st1.write(0,i,a)
 
     for i,a in enumerate(func1_data2.objects.all().order_by('ItemName','Serial')):
         if len(Maturity)==0 or Maturity[-1][0]!=a.ItemName:
