@@ -81,7 +81,7 @@ $(function () {
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script>
 	var chart = {
-		type: 'scatter',
+		type: 'line',
 		zoomType: 'xy'
 	};
 	var credits = {
@@ -157,16 +157,18 @@ $(function () {
         },{
             type: 'line',
             name: '回归线',
-            data: [[0, 100], [100, 0]],
-            marker: {
-                enabled: false
-            },
-            states: {
-                hover: {
-                    lineWidth: 0
-                }
-            },
-            enableMouseTracking: false
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 100], [100, 0]]
+        },{
+            type: 'line',
+            name: '回归线2',
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 50], [50, 0]]
+        },{
+            type: 'line',
+            name: '回归线3',
+            color: 'rgba(0, 0, 0, .5)',
+            data: [[0, 75], [75, 0]]
         }]
 	var json = {};
 	   json.chart = chart;
