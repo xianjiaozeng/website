@@ -91,15 +91,15 @@ $(function () {
 		enabled: false
 	};
 	var title = {
-       text: '图的标题'   
+       text: 'SIOP LEVEL'   
 	};
 	var subtitle = {
-        text: '图的子标题'
+        text: 'Note: Any score either maturity or effectiveness below 50, will cause the SIOP to be at Level 1 regardless of the score in the other one.'
 	};
 	var xAxis = {
 		title: {
 			enabled: true,
-			text: '百分比'
+			text: 'Effectiveness'
 		},
     min: 0.5,
 		startOnTick: false,
@@ -109,7 +109,7 @@ $(function () {
 	var yAxis = {
 		title: {
 			enabled: true,
-			text: '百分比'
+			text: 'Maturity'
 		},
     min:0.5,
 		startOnTick: false,
@@ -130,6 +130,12 @@ $(function () {
 	*/
 	var legend = {};
 	var plotOptions = {
+      line: {
+        tooltip: {
+          headerFormat: '',
+          pointFormat: '({point.x}, {point.y})'
+        }
+      },
       scatter: {
          marker: {
             radius: 5,
@@ -148,26 +154,33 @@ $(function () {
             }
          },
          tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x} , {point.y} '
+            headerFormat: '',
+            pointFormat: 'Effectiveness:{point.x}, Maturity:{point.y} '
          }
       }
    };
-   var series= [];
+   var series= [{
+            type: 'scatter',
+            color: 'rgba(223, 83, 83, .5)',
+            data: [0.7,0.7],
+            showInLegend: false
+        }];
       if(graph[0]>=0.5&&graph[1]>=0.5){
         series.push({
             type: 'scatter',
             color: 'rgba(223, 83, 83, .5)',
-            data: [[graph[0],graph[1]]]
-
+            data: [[graph[0],graph[1]]],
+            showInLegend: false
         });
       }
       for(var i=2;i<graph.length;i++){
         if(graph[i]<1)continue;
         series.push({
             type: 'line',
+            name: ''+i,
             color: 'rgba(100, 66, 255, .5)',
-            data: [[0.5, graph[i]-0.5], [graph[i]-0.5, 0.5]]
+            data: [[0.5, Number((graph[i]-0.5).toFixed(2))], [Number((graph[i]-0.5).toFixed(2)), 0.5]],
+            showInLegend: false
         });
       }
 	var json = {};
