@@ -47,7 +47,9 @@
                                 <p class="category">Upload the files</p>
                             </div>
                             <div class="content">
-								<input id="upload" type="file" class="file"></input>
+
+								<input id="upload" type="file" class="file" name="upload"></input>
+
                             </div>
                         </div>
                     </div>
@@ -56,5 +58,15 @@
         </div>
 {% endblock %}
 {% block js_footer %}
-<script>$("#upload").fileinput();$('#func1').attr('class','active');</script>
+<script>
+console.log('{{csrf_token}}')
+$("#upload").fileinput({
+    uploadUrl:"/upload/",
+    uploadExtraData : {csrfmiddlewaretoken: '{{ csrf_token }}',func:'func1'}
+});
+ $("#upload").on("fileuploaded", function (event, data, previewId, index) {  
+         return;  
+     });
+$('#func1').attr('class','active');
+</script>
 {% endblock %}
