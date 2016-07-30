@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import permission_required
 from django.http import StreamingHttpResponse
 from django.conf import settings
 from .forms import UploadForm
-import os,time
+import os,time,json
 from datastruct.CalculateExcel import func1_calculate
+from datastruct import GetData
 # Create your views here.
 
 @permission_required('solvedata.solve_data',raise_exception=True)
@@ -20,7 +21,18 @@ def user(request):
 #func1
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_1(request):
-	return render(request,'solvedata/func1_1.html')
+	filenames = os.listdir(settings.MEDIA_ROOT+'common/func1/')
+	results = []
+	for filename in filenames:
+		file_path = settings.MEDIA_ROOT+'common/func1/'+filename
+		mtime = time.localtime(os.path.getmtime(file_path))
+		mtime = time.strftime('%Y-%m-%d',mtime)
+		filesize = os.path.getsize(file_path)
+		md5 = "12345678123456781234567812345678"
+		description = "nothing"
+		results.append((filename,description,md5,mtime,filesize))
+	results.sort(key=lambda x:x[2])
+	return render(request,'solvedata/func1_1.html',{'results':results})
 
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_result(request):
@@ -37,8 +49,11 @@ def func1_result(request):
 	return render(request,'solvedata/func1_result.html',{'results':results})
 
 @permission_required('solvedata.solve_data',raise_exception=True)
-def func1_result_view(request):
-	return render(request,'solvedata/func1_result_view.html')
+def func1_result_view(request,filename):
+	table,graph = GetData.func1_get(request.user.username,filename)
+	table = json.dumps(table)
+	graph = json.dumps(graph)
+	return render(request,'solvedata/func1_result_view.html',{'table':table,'graph':graph})
 
 @permission_required('solvedata.solve_data',raise_exception=True)
 def download(request,file_owner,func,file_name):
@@ -64,7 +79,7 @@ def handle_uploaded_file(path,f):
 		with open(file_path, 'wb+') as destination:
 			for chunk in f.chunks():
 				destination.write(chunk)
-	except:
+	except Exception as e:
 		pass
 
 
@@ -72,11 +87,10 @@ def handle_uploaded_file(path,f):
 def upload(request):
 	if request.method == 'POST':
 		form = UploadForm(request.POST, request.FILES)
-		if form.is_valid():
-			current_user = request.user.username
-			handle_uploaded_file(settings.MEDIA_ROOT+current_user,request.FILES['file'])
-			func1_calculate(current_user,request.FILES['file'].name)
-			return HttpResponse("上传成功")
+		current_user = request.user.username
+		handle_uploaded_file(settings.MEDIA_ROOT+current_user+"/"+request.POST['func'],request.FILES['upload'])
+		func1_calculate(current_user,request.FILES['upload'].name)
+		return HttpResponse("{}")
 	return HttpResponse("上传失败")
 
 @permission_required('solvedata.solve_data',raise_exception=True)

@@ -16,27 +16,21 @@
                                         <th>模板名</th>
                                     	<th>描述</th>
                                     	<th>MD5</th>
+                                        <th>时间</th>
                                     	<th>文件大小（字节）</th>
                                     </thead>
                                     <tbody>
+                                        {% for result in results %}
                                         <tr>
-                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
-                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
-                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
-                                        	<td>5632</td>
+                                            <td>
+                                                <a href="/download/common/func1/{{result.0}}/">{{result.0}}</a></li>
+                                            </td>
+                                            <td>{{result.1}}</td>
+                                            <td>{{result.2}}</td>
+                                            <td>{{result.3}}</td>
+                                            <td>{{result.4}}</td>
                                         </tr>
-										<tr>
-                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
-                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
-                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
-                                        	<td>5632</td>
-                                        </tr>
-										<tr>
-                                        	<td><a href="/download/common/a.xls/">a.xls</a></td>
-                                        	<td>功能一的模板，用户需要自行填入数据并上传</td>
-                                        	<td>5f2ef90b1adef35a64df14d4bb7af733</td>
-                                        	<td>5632</td>
-                                        </tr>
+                                        {% endfor %}    
                                     </tbody>
                                 </table>
 
@@ -53,7 +47,9 @@
                                 <p class="category">Upload the files</p>
                             </div>
                             <div class="content">
-								<input id="upload" type="file" class="file"></input>
+
+								<input id="upload" type="file" class="file" name="upload"></input>
+
                             </div>
                         </div>
                     </div>
@@ -62,5 +58,15 @@
         </div>
 {% endblock %}
 {% block js_footer %}
-<script>$("#upload").fileinput();$('#func1').attr('class','active');</script>
+<script>
+console.log('{{csrf_token}}')
+$("#upload").fileinput({
+    uploadUrl:"/upload/",
+    uploadExtraData : {csrfmiddlewaretoken: '{{ csrf_token }}',func:'func1'}
+});
+ $("#upload").on("fileuploaded", function (event, data, previewId, index) {  
+         return;  
+     });
+$('#func1').attr('class','active');
+</script>
 {% endblock %}
