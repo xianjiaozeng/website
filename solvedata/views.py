@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import permission_required
 from django.http import StreamingHttpResponse
 from django.conf import settings
 from .forms import UploadForm
-import os,time
+import os,time,json
 from datastruct.CalculateExcel import func1_calculate
+from datastruct import GetData
 # Create your views here.
 
 @permission_required('solvedata.solve_data',raise_exception=True)
@@ -20,7 +21,18 @@ def user(request):
 #func1
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_1(request):
-	return render(request,'solvedata/func1_1.html')
+	filenames = os.listdir(settings.MEDIA_ROOT+'common/func1/')
+	results = []
+	for filename in filenames:
+		file_path = settings.MEDIA_ROOT+'common/func1/'+filename
+		mtime = time.localtime(os.path.getmtime(file_path))
+		mtime = time.strftime('%Y-%m-%d',mtime)
+		filesize = os.path.getsize(file_path)
+		md5 = "12345678123456781234567812345678"
+		description = "nothing"
+		results.append((filename,description,md5,mtime,filesize))
+	results.sort(key=lambda x:x[2])
+	return render(request,'solvedata/func1_1.html',{'results':results})
 
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_result(request):
@@ -38,7 +50,10 @@ def func1_result(request):
 
 @permission_required('solvedata.solve_data',raise_exception=True)
 def func1_result_view(request):
-	return render(request,'solvedata/func1_result_view.html')
+	table,graph = GetData.func1_get(request.user.username,'result.xls')
+	table = json.dumps(table)
+	graph = json.dumps(graph)
+	return render(request,'solvedata/func1_result_view.html',{'table':table,'graph':graph})
 
 @permission_required('solvedata.solve_data',raise_exception=True)
 def download(request,file_owner,func,file_name):
