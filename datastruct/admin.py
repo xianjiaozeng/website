@@ -1,26 +1,38 @@
 #coding:utf-8
 from django.contrib import admin
-from .models import Data
-from .GenerateExcel import Create
-from .CalculateExcel import Calculate
+from .models import func1_data1,func1_data2
+from .GenerateExcel import func1_create
+from .CalculateExcel import func1_calculate
 # Register your models here.
+
 
 #class DataLine(admin.StackedInline):
 #    model   =   Data
 #    extra   =   1
 
-def Generate(ModelAdmin,request,queryset):
-    Create(queryset)
-#    for a in queryset:
-#        print isinstance(a.ItemName,unicode)
-Generate.short_description  =   "生成"
+def func1_generate(ModelAdmin,request,queryset):
+    func1_create()
+#    func1_calculate('common','user.xls')
 
-class DataAdmin(admin.ModelAdmin):
+class func1_admin_data1(admin.ModelAdmin):
     #显示字段
     list_display=   ('ItemName','SubItemName','UnitName','Weight','MaxSingle')
     #显示排序
     ordering    =   ['ItemName','SubItemName']
+
     #生成功能
-    actions      =   [Generate]
+    actions      =   [func1_generate]
 #    inlines     =   [DataLine]
-admin.site.register(Data,DataAdmin)
+class func1_admin_data2(admin.ModelAdmin):
+    #显示字段
+    list_display=   ('ItemName','Serial','SubItemName','Weight','MaxSingle')
+    #显示排序
+    ordering    =   ['ItemName','Serial']
+
+    #生成功能
+    actions      =   [func1_generate]
+#    inlines     =   [DataLine]
+
+admin.site.register(func1_data1,func1_admin_data1)
+admin.site.register(func1_data2,func1_admin_data2)
+func1_generate.short_description    =   "生成"

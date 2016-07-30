@@ -6,7 +6,7 @@ from django.http import StreamingHttpResponse
 from django.conf import settings
 from .forms import UploadForm
 import os,time
-from datastruct.CalculateExcel import Calculate
+from datastruct.CalculateExcel import func1_calculate
 # Create your views here.
 
 @permission_required('solvedata.solve_data',raise_exception=True)
@@ -76,7 +76,7 @@ def upload(request):
 		if form.is_valid():
 			current_user = request.user.username
 			handle_uploaded_file(settings.MEDIA_ROOT+current_user,request.FILES['file'])
-			Calculate(current_user,request.FILES['file'].name)
+			func1_calculate(current_user,request.FILES['file'].name)
 			return HttpResponse("上传成功")
 	return HttpResponse("上传失败")
 
